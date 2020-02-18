@@ -1,18 +1,65 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header 
+    :numberOfQuestionsGuessedCorrectly="numberOfQuestionsGuessedCorrectly"
+    :numberOfQuestionsSeen="numberOfQuestionsSeen"
+    />
+    
+    <b-container class="bv-example-row">
+      <b-row>
+        <b-col sm="6" offset="3">
+          <QuestionBox
+            v-if="allQuestionDataFromAPI.length"
+            :currentQuestionData="allQuestionDataFromAPI[numberOfQuestionsSeen]"
+            :nextQuestion="nextQuestion"
+         
+            >
+           <!-- Data in this tag is sent to the QuestionBox component. It MUST be included in the props section though. -->
+          </QuestionBox>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+import QuestionBox from './components/QuestionBox.vue'
 
 export default {
   name: 'App',
+
   components: {
-    HelloWorld
-  }
+    Header,
+    QuestionBox
+  },
+
+  data() {
+    return {
+      allQuestionDataFromAPI: [],
+      numberOfQuestionsGuessedCorrectly: 0,
+      numberOfQuestionsSeen: 0,
+    }
+  },
+
+  methods: {
+    nextQuestion(){
+      this.numberOfQuestionsSeen++
+    }
+  },
+
+  mounted: function() {
+    fetch ('https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple', {
+      method: 'get'
+    })
+      .then((response) => {
+        return response.json()
+      })
+      .then((jsonData) => {
+        this.allQuestionDataFromAPI = jsonData.results
+      })
+  } 
+
 }
 </script>
 
