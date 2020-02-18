@@ -9,7 +9,7 @@
       <hr class="my-4">
 
       <b-list-group
-        v-for="(eachAnswer, index) in shuffledAnswers" 
+        v-for="(eachAnswer, index) in allAnswers" 
         :key="index"
         @click="selectAnswer(index)"
         >
@@ -36,7 +36,7 @@ export default {
     return {
       selectedIndex: null,
       indexOfCorrectAnswer: null,
-      shuffledAnswers: []
+      allAnswers: []
     }
   },
 
@@ -45,7 +45,8 @@ export default {
       immediate: true,
       handler: function() {
         this.selectedIndex = null
-        this.combineAndShuffleAnswers()
+        this.combineIncorrectAndCorrectAnswers()
+        this.shuffleAnswers()
       }
     }
   },
@@ -55,19 +56,19 @@ export default {
       this.selectedIndex = index
     },
 
-    combineIncorrectAndCorrectAnswers() {},
+    combineIncorrectAndCorrectAnswers() {
+      this.allAnswers = [...this.currentQuestionData.incorrect_answers]
+      this.allAnswers.push(this.currentQuestionData.correct_answer)
+      this.indexOfCorrectAnswer = (this.allAnswers.length - 1)
+    },
 
-    combineAndShuffleAnswers() {
-      let allAnswers = [...this.currentQuestionData.incorrect_answers]
-      allAnswers.push(this.currentQuestionData.correct_answer)
-
+    shuffleAnswers() {
+      let oldIndexOfCorrectAnswer = this.indexOfCorrectAnswer
       this.indexOfCorrectAnswer = Math.round(Math.random() * 3)
 
-      var temp = allAnswers[this.indexOfCorrectAnswer]
-      allAnswers[this.indexOfCorrectAnswer] = allAnswers[3]
-      allAnswers[3] = temp
-
-      this.shuffledAnswers = allAnswers
+      var temp = this.allAnswers[this.indexOfCorrectAnswer]
+      this.allAnswers[this.indexOfCorrectAnswer] = this.allAnswers[oldIndexOfCorrectAnswer]
+      this.allAnswers[oldIndexOfCorrectAnswer] = temp
     }
   }
 }
