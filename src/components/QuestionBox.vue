@@ -43,7 +43,7 @@ export default {
   watch: {
     currentQuestionData: {
       immediate: true,
-      handler() {
+      handler: function() {
         this.selectedIndex = null
         this.combineAndShuffleAnswers()
       }
@@ -55,14 +55,16 @@ export default {
       this.selectedIndex = index
     },
 
+    combineIncorrectAndCorrectAnswers() {},
+
     combineAndShuffleAnswers() {
-      let allAnswers = [...this.currentQuestionData.incorrect_answer]
+      let allAnswers = [...this.currentQuestionData.incorrect_answers]
       allAnswers.push(this.currentQuestionData.correct_answer)
 
-      let newIndexOfCorrectAnswer = Math.round(Math.random() * 3)
+      this.indexOfCorrectAnswer = Math.round(Math.random() * 3)
 
-      let temp = allAnswers[newIndexOfCorrectAnswer]
-      allAnswers[newIndexOfCorrectAnswer] = allAnswers[3]
+      var temp = allAnswers[this.indexOfCorrectAnswer]
+      allAnswers[this.indexOfCorrectAnswer] = allAnswers[3]
       allAnswers[3] = temp
 
       this.shuffledAnswers = allAnswers
