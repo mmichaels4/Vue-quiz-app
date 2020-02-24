@@ -8,14 +8,15 @@
 
       <hr class="my-4">
 
-      <b-list-group
+      <b-list-group>
+        <b-list-group-item 
         v-for="(eachAnswer, index) in allAnswers" 
         :key="index"
-        :style="assignClass(index)"
-        @click="selectAnswer(index)"
+        @click.prevent="selectAnswer(index)"
+        :class="assignClass(index)"
         >
-
-        <b-list-group-item button>{{ eachAnswer }}</b-list-group-item>
+          {{ eachAnswer }}
+        </b-list-group-item>
       </b-list-group>
 
 
@@ -89,25 +90,20 @@ export default {
     assignClass(index) {
       let answerClass = ''
       if (index === this.selectedIndex && this.answeredTheQuestion === false) {
-        answerClass = '.selected'
-        console.log('Index: ' + index + ' .selected')
+        answerClass = 'selected'
       } else if (index === this.indexOfCorrectAnswer && this.answeredTheQuestion === true ) {
-        answerClass = '.correct'
-        console.log('Index: ' + index + ' .selected')
-        console.log('.correct')
+        answerClass = 'correct'
       } else if (index === this.selectedIndex && this.selectedIndex !== this.indexOfCorrectAnswer) {
-        answerClass = '.incorrect'
-        console.log('Index: ' + index + ' .selected')
-        console.log('.incorrect')
+        answerClass = 'incorrect'
       }
       return answerClass
-    },
+    }
   }
 }
 </script>
 
 <style scoped>
-.list-group {
+.list-group-item {
   margin-bottom: 10px;
 }
 
