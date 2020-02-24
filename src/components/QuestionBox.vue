@@ -11,6 +11,7 @@
       <b-list-group
         v-for="(eachAnswer, index) in allAnswers" 
         :key="index"
+        :style="assignClass(index)"
         @click="selectAnswer(index)"
         >
 
@@ -18,7 +19,7 @@
       </b-list-group>
 
 
-      <b-button :disabled="selectedIndex === null" @click="checkIfCorrectAnswer" variant="info" href="#">Submit</b-button>
+      <b-button :disabled="selectedIndex === null || answeredTheQuestion === true" @click="checkIfCorrectAnswer" variant="info" href="#">Submit</b-button>
       <b-button :disabled="answeredTheQuestion === false" @click="nextQuestion" variant="dark" href="#">Next Question</b-button>    
     </b-jumbotron>
   </div>
@@ -85,6 +86,22 @@ export default {
       }
     },
 
+    assignClass(index) {
+      let answerClass = ''
+      if (index === this.selectedIndex && this.answeredTheQuestion === false) {
+        answerClass = '.selected'
+        console.log('Index: ' + index + ' .selected')
+      } else if (index === this.indexOfCorrectAnswer && this.answeredTheQuestion === true ) {
+        answerClass = '.correct'
+        console.log('Index: ' + index + ' .selected')
+        console.log('.correct')
+      } else if (index === this.selectedIndex && this.selectedIndex !== this.indexOfCorrectAnswer) {
+        answerClass = '.incorrect'
+        console.log('Index: ' + index + ' .selected')
+        console.log('.incorrect')
+      }
+      return answerClass
+    },
   }
 }
 </script>
@@ -96,6 +113,7 @@ export default {
 
 .list-group-item:hover {
   cursor: pointer;
+  background-color: darkgrey;
 }
 
 .btn {
