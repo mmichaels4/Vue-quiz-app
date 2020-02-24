@@ -18,8 +18,8 @@
       </b-list-group>
 
 
-      <b-button @click="checkIfCorrectAnswer(index)" variant="info" href="#">Submit</b-button>
-      <b-button @click="nextQuestion" variant="dark" href="#">Next Question</b-button>    
+      <b-button :disabled="selectedIndex === null" @click="checkIfCorrectAnswer" variant="info" href="#">Submit</b-button>
+      <b-button :disabled="answeredTheQuestion === false" @click="nextQuestion" variant="dark" href="#">Next Question</b-button>    
     </b-jumbotron>
   </div>
 </template>
@@ -30,13 +30,16 @@ export default {
   props: {
     currentQuestionData: Object,
     nextQuestion: Function,
+    answeredCorrectly: Function,
+    answeredIncorrectly:Function,
   },
 
   data() {
     return {
       selectedIndex: null,
       indexOfCorrectAnswer: null,
-      allAnswers: []
+      allAnswers: [],
+      answeredTheQuestion: false
     }
   },
 
@@ -44,6 +47,7 @@ export default {
     currentQuestionData: {
       immediate: true,
       handler: function() {
+        this.answeredTheQuestion = false
         this.selectedIndex = null
         this.combineIncorrectAndCorrectAnswers()
         this.shuffleAnswers()
@@ -69,7 +73,18 @@ export default {
       var temp = this.allAnswers[this.indexOfCorrectAnswer]
       this.allAnswers[this.indexOfCorrectAnswer] = this.allAnswers[oldIndexOfCorrectAnswer]
       this.allAnswers[oldIndexOfCorrectAnswer] = temp
-    }
+    },
+
+    checkIfCorrectAnswer() {
+      this.answeredTheQuestion = true
+
+      if (this.selectedIndex === this.indexOfCorrectAnswer) {
+        this.answeredCorrectly()
+      } else {
+        this.answeredIncorrectly()
+      }
+    },
+
   }
 }
 </script>

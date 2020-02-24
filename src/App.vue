@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <Header 
-    :numberOfQuestionsGuessedCorrectly="numberOfQuestionsGuessedCorrectly"
-    :numberOfQuestionsSeen="numberOfQuestionsSeen"
+    :questionsAnsweredCorrectly="questionsAnsweredCorrectly"
+    :questionsAnswered="questionsAnswered"
     />
     
     <b-container class="bv-example-row">
@@ -10,8 +10,10 @@
         <b-col sm="6" offset="3">
           <QuestionBox
             v-if="allQuestionDataFromAPI.length"
-            :currentQuestionData="allQuestionDataFromAPI[numberOfQuestionsSeen]"
+            :currentQuestionData="allQuestionDataFromAPI[indexOfCurrentQuestion]"
             :nextQuestion="nextQuestion"
+            :answeredCorrectly="answeredCorrectly"
+            :answeredIncorrectly="answeredIncorrectly"
          
             >
            <!-- Data in this tag is sent to the QuestionBox component. It MUST be included in the props section though. -->
@@ -37,14 +39,24 @@ export default {
   data() {
     return {
       allQuestionDataFromAPI: [],
-      numberOfQuestionsGuessedCorrectly: 0,
-      numberOfQuestionsSeen: 0,
+      questionsAnsweredCorrectly: 0,
+      questionsAnswered: 0,
+      indexOfCurrentQuestion: 0,
     }
   },
 
   methods: {
     nextQuestion(){
-      this.numberOfQuestionsSeen++
+      this.indexOfCurrentQuestion++
+    },
+
+    answeredCorrectly() {
+      this.questionsAnsweredCorrectly++
+      this.questionsAnswered++
+    },
+
+    answeredIncorrectly() {
+      this.questionsAnswered++
     }
   },
 
