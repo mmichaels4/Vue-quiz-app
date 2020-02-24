@@ -5,7 +5,9 @@
     :questionsAnswered="questionsAnswered"
     />
     
-    <b-container class="bv-example-row">
+
+    <b-container v-if="indexOfCurrentQuestion <= 3" class="bv-example-row">
+    <!-- <b-container v-if="indexOfCurrentQuestion <= 9" class="bv-example-row"> -->
       <b-row>
         <b-col sm="6" offset="3">
           <QuestionBox
@@ -14,26 +16,37 @@
             :nextQuestion="nextQuestion"
             :answeredCorrectly="answeredCorrectly"
             :answeredIncorrectly="answeredIncorrectly"
-         
+            :indexOfCurrentQuestion="indexOfCurrentQuestion"
+          
             >
-           <!-- Data in this tag is sent to the QuestionBox component. It MUST be included in the props section though. -->
+          <!-- Data in this tag is sent to the QuestionBox component. It MUST be included in the props section though. -->
           </QuestionBox>
         </b-col>
       </b-row>
     </b-container>
+    
+    <!-- <DisplayScore v-if="indexOfCurrentQuestion === 10" -->
+    <DisplayScore v-if="indexOfCurrentQuestion > 3"
+      :questionsAnsweredCorrectly="questionsAnsweredCorrectly"
+      :questionsAnswered="questionsAnswered"
+      />
+
+    <footer> Test footer </footer>
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
 import QuestionBox from './components/QuestionBox.vue'
+import DisplayScore from './components/DisplayScore.vue'
 
 export default {
   name: 'App',
 
   components: {
     Header,
-    QuestionBox
+    QuestionBox,
+    DisplayScore
   },
 
   data() {
@@ -83,5 +96,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+footer {
+  position: fixed;
+  bottom: 100;
+  width: 100%;
+  background-color: blanchedalmond;
 }
 </style>

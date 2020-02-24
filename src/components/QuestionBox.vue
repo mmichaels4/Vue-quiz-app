@@ -21,7 +21,7 @@
 
 
       <b-button :disabled="selectedIndex === null || answeredTheQuestion === true" @click="checkIfCorrectAnswer" variant="info" href="#">Submit</b-button>
-      <b-button :disabled="answeredTheQuestion === false" @click="nextQuestion" variant="dark" href="#">Next Question</b-button>    
+      <b-button :disabled="answeredTheQuestion === false" @click="nextQuestion" variant="dark" href="#">{{ getText }}</b-button>    
     </b-jumbotron>
   </div>
 </template>
@@ -33,7 +33,8 @@ export default {
     currentQuestionData: Object,
     nextQuestion: Function,
     answeredCorrectly: Function,
-    answeredIncorrectly:Function,
+    answeredIncorrectly: Function,
+    indexOfCurrentQuestion: Number,
   },
 
   data() {
@@ -41,7 +42,19 @@ export default {
       selectedIndex: null,
       indexOfCorrectAnswer: null,
       allAnswers: [],
-      answeredTheQuestion: false
+      answeredTheQuestion: false,
+    }
+  },
+
+  computed: {
+    getText: function() {
+      if (this.indexOfCurrentQuestion === 9)
+      {
+        return 'See Score'
+      }
+      else {
+        return 'Next Question'
+      }
     }
   },
 
@@ -88,15 +101,15 @@ export default {
     },
 
     assignClass(index) {
-      let answerClass = ''
+      let classToReturn = ''
       if (index === this.selectedIndex && this.answeredTheQuestion === false) {
-        answerClass = 'selected'
+        classToReturn = 'selected'
       } else if (index === this.indexOfCorrectAnswer && this.answeredTheQuestion === true ) {
-        answerClass = 'correct'
+        classToReturn = 'correct'
       } else if (index === this.selectedIndex && this.selectedIndex !== this.indexOfCorrectAnswer) {
-        answerClass = 'incorrect'
+        classToReturn = 'incorrect'
       }
-      return answerClass
+      return classToReturn
     }
   }
 }
