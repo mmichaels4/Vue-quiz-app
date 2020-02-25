@@ -1,5 +1,5 @@
 <template>
-  <div class="box-for-question-cells">
+  <div class="boxOfQuestions">
     <b-jumbotron>
 
       <template v-slot:lead>
@@ -8,18 +8,25 @@
 
       <hr class="my-4">
 
-      <b-list-group
+      <b-list-group>
+        <b-list-group-item 
         v-for="(eachAnswer, index) in allAnswers" 
-        :key="index"
-        @click="selectAnswer(index)"
+        :key="eachAnswer.index"
+        @click.prevent="selectAnswer(index)"
+        :class="assignClass(index)"
         >
-
-        <b-list-group-item button>{{ eachAnswer }}</b-list-group-item>
+          {{ eachAnswer }}
+        </b-list-group-item>
       </b-list-group>
 
+      <b-button 
+      :disabled="selectedIndex === null || answeredTheQuestion === true"
+       @click="checkIfCorrectAnswer" variant="info" href="#">Submit</b-button
+       >
+      <b-button :disabled="answeredTheQuestion === false" @click="nextQuestion" 
+      variant="dark" href="#">{{ getButtonText }}</b-button
+      >    
 
-      <b-button @click="checkIfCorrectAnswer(index)" variant="info" href="#">Submit</b-button>
-      <b-button @click="nextQuestion" variant="dark" href="#">Next Question</b-button>    
     </b-jumbotron>
   </div>
 </template>
@@ -30,23 +37,28 @@ export default {
   props: {
     currentQuestionData: Object,
     nextQuestion: Function,
+    answeredCorrectly: Function,
+    answeredIncorrectly: Function,
+    indexOfCurrentQuestion: Number,
   },
 
   data() {
     return {
       selectedIndex: null,
       indexOfCorrectAnswer: null,
-      allAnswers: []
+      allAnswers: [],
+      answeredTheQuestion: false,
     }
   },
 
-  watch: {
-    currentQuestionData: {
-      immediate: true,
-      handler: function() {
-        this.selectedIndex = null
-        this.combineIncorrectAndCorrectAnswers()
-        this.shuffleAnswers()
+  computed: {
+    getButtonText: function() {
+      if (this.indexOfCurrentQuestion === 9)
+      {
+        return 'See Score'
+      }
+      else {
+        return 'Next Question'
       }
     }
   },
@@ -69,18 +81,53 @@ export default {
       var temp = this.allAnswers[this.indexOfCorrectAnswer]
       this.allAnswers[this.indexOfCorrectAnswer] = this.allAnswers[oldIndexOfCorrectAnswer]
       this.allAnswers[oldIndexOfCorrectAnswer] = temp
+    },
+
+    checkIfCorrectAnswer() {
+      this.answeredTheQuestion = true
+
+      if (this.selectedIndex === this.indexOfCorrectAnswer) {
+        this.answeredCorrectly()
+      } else {
+        this.answeredIncorrectly()
+      }
+    },
+
+    assignClass(index) {
+      let classToReturn = ''
+      if (index === this.selectedIndex && this.answeredTheQuestion === false) {
+        classToReturn = 'selected'
+      } else if (index === this.indexOfCorrectAnswer && this.answeredTheQuestion === true ) {
+        classToReturn = 'correct'
+      } else if (index === this.selectedIndex && this.selectedIndex !== this.indexOfCorrectAnswer) {
+        classToReturn = 'incorrect'
+      }
+      return classToReturn
+    }
+  },
+
+  watch: {
+    currentQuestionData: {
+      immediate: true,
+      handler: function() {
+        this.answeredTheQuestion = false
+        this.selectedIndex = null
+        this.combineIncorrectAndCorrectAnswers()
+        this.shuffleAnswers()
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-.list-group {
+.list-group-item {
   margin-bottom: 10px;
 }
 
 .list-group-item:hover {
   cursor: pointer;
+  background-color:  #96cafd;
 }
 
 .btn {
@@ -88,7 +135,7 @@ export default {
 }
 
 .selected {
-  background-color: darkgrey;
+  background-color: #96cafd;
 }
 
 .correct {
@@ -96,6 +143,6 @@ export default {
 }
 
 .incorrect {
-  background-color: tomato;
+  background-color: #fe4545;
 }
 </style>
