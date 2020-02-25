@@ -1,5 +1,5 @@
 <template>
-  <div class="box-for-question-cells">
+  <div class="boxOfQuestions">
     <b-jumbotron>
 
       <template v-slot:lead>
@@ -127,7 +127,7 @@ export default {
 
 .list-group-item:hover {
   cursor: pointer;
-  background-color: darkgrey;
+  background-color:  #96cafd;
 }
 
 .btn {
@@ -135,7 +135,7 @@ export default {
 }
 
 .selected {
-  background-color: darkgrey;
+  background-color: #96cafd;
 }
 
 .correct {
@@ -143,6 +143,6 @@ export default {
 }
 
 .incorrect {
-  background-color: tomato;
+  background-color: #fe4545;
 }
 </style>
