@@ -15,9 +15,9 @@
 <script>
 export default {
   // Props is where you 'import' the data from App.vue
-  props: [
-    'questionsAnsweredCorrectly',
-    'questionsAnswered'
-  ]
+  props: {
+    questionsAnsweredCorrectly: Number,
+    questionsAnswered: Number
+  }
 }
 </script>

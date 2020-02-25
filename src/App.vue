@@ -1,35 +1,40 @@
 <template>
   <div id="app">
-    <Header 
+    
+    <Header class="headerClass"
     :questionsAnsweredCorrectly="questionsAnsweredCorrectly"
     :questionsAnswered="questionsAnswered"
     />
-    
 
     <b-container v-if="indexOfCurrentQuestion <= 9" class="bv-example-row">
       <b-row>
         <b-col sm="6" offset="3">
           <QuestionBox
+            class="questionBoxClass"
             v-if="allQuestionDataFromAPI.length"
             :currentQuestionData="allQuestionDataFromAPI[indexOfCurrentQuestion]"
             :nextQuestion="nextQuestion"
             :answeredCorrectly="answeredCorrectly"
             :answeredIncorrectly="answeredIncorrectly"
             :indexOfCurrentQuestion="indexOfCurrentQuestion"
-          
-            >
-          <!-- Data in this tag is sent to the QuestionBox component. It MUST be included in the props section though. -->
-          </QuestionBox>
+            />
         </b-col>
       </b-row>
     </b-container>
     
-    <DisplayScore v-if="indexOfCurrentQuestion === 10"
+    <DisplayScore class="displayScore"
+      v-if="indexOfCurrentQuestion === 10"
       :questionsAnsweredCorrectly="questionsAnsweredCorrectly"
       :questionsAnswered="questionsAnswered"
       />
 
-    <footer> Test footer </footer>
+    <footer class="fixed-bottom"> Created by Matty Michaels following a YouTube
+      <a href="https://www.youtube.com/watch?v=4deVCNJq3qc&t=2133s" 
+        target="_blank">Tutorial</a>, but added more functionality and 
+      (theoretically) reduced the complexity of the code. Her code can be seen 
+      <a href="https://github.com/gwenf/vue-quiz" target="_blank">here</a>.
+    </footer>
+
   </div>
 </template>
 
@@ -94,12 +99,30 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
 }
+
 footer {
-  position: fixed;
   bottom: 100;
   width: 100%;
-  background-color: blanchedalmond;
+  background-color: #edeff0;
+}
+
+.headerClass {
+  background-color: #edeff0;
+}
+
+.questionBoxClass {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.displayScore {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

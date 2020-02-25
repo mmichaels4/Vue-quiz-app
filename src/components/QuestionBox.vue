@@ -24,7 +24,7 @@
        @click="checkIfCorrectAnswer" variant="info" href="#">Submit</b-button
        >
       <b-button :disabled="answeredTheQuestion === false" @click="nextQuestion" 
-      variant="dark" href="#">{{ getText }}</b-button
+      variant="dark" href="#">{{ getButtonText }}</b-button
       >    
 
     </b-jumbotron>
@@ -52,25 +52,13 @@ export default {
   },
 
   computed: {
-    getText: function() {
+    getButtonText: function() {
       if (this.indexOfCurrentQuestion === 9)
       {
         return 'See Score'
       }
       else {
         return 'Next Question'
-      }
-    }
-  },
-
-  watch: {
-    currentQuestionData: {
-      immediate: true,
-      handler: function() {
-        this.answeredTheQuestion = false
-        this.selectedIndex = null
-        this.combineIncorrectAndCorrectAnswers()
-        this.shuffleAnswers()
       }
     }
   },
@@ -115,6 +103,18 @@ export default {
         classToReturn = 'incorrect'
       }
       return classToReturn
+    }
+  },
+
+  watch: {
+    currentQuestionData: {
+      immediate: true,
+      handler: function() {
+        this.answeredTheQuestion = false
+        this.selectedIndex = null
+        this.combineIncorrectAndCorrectAnswers()
+        this.shuffleAnswers()
+      }
     }
   }
 }
