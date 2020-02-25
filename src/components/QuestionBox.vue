@@ -11,7 +11,7 @@
       <b-list-group>
         <b-list-group-item 
         v-for="(eachAnswer, index) in allAnswers" 
-        :key="index"
+        :key="eachAnswer.index"
         @click.prevent="selectAnswer(index)"
         :class="assignClass(index)"
         >
@@ -19,9 +19,14 @@
         </b-list-group-item>
       </b-list-group>
 
+      <b-button 
+      :disabled="selectedIndex === null || answeredTheQuestion === true"
+       @click="checkIfCorrectAnswer" variant="info" href="#">Submit</b-button
+       >
+      <b-button :disabled="answeredTheQuestion === false" @click="nextQuestion" 
+      variant="dark" href="#">{{ getText }}</b-button
+      >    
 
-      <b-button :disabled="selectedIndex === null || answeredTheQuestion === true" @click="checkIfCorrectAnswer" variant="info" href="#">Submit</b-button>
-      <b-button :disabled="answeredTheQuestion === false" @click="nextQuestion" variant="dark" href="#">{{ getText }}</b-button>    
     </b-jumbotron>
   </div>
 </template>

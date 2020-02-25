@@ -1,8 +1,12 @@
 <template>
   <div>
     <b-nav tabs>
-      <b-nav-item disabled>Quiz-O-Tron 5000</b-nav-item>
-      <b-nav-item disabled>Score: {{ questionsAnsweredCorrectly }}/{{ questionsAnswered }}</b-nav-item>
+      <b-nav-item disabled>
+        Quiz-O-Tron 5000
+      </b-nav-item>
+      <b-nav-item disabled>
+        Score: {{ questionsAnsweredCorrectly }}/{{ questionsAnswered }}
+      </b-nav-item>
     </b-nav>
   </div>
 </template>

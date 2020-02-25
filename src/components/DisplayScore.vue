@@ -1,63 +1,49 @@
 <template>
-  <div>
-    <p :class="assignClass"> Your score was {{ questionsAnsweredCorrectly }}/{{ questionsAnswered }} - {{ getPercentage }}%</p>
+  <div class="container">
+    <div class="jumbotron" :class="assignClass()">
+      <h1>{{ percentageCorrect }}%</h1>
+      <p> You guessed correctly on
+        {{ questionsAnsweredCorrectly }} of the 
+        {{ questionsAnswered }} questions!
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  // props: [
-  //   'questionsAnsweredCorrectly',
-  //   'questionsAnswered'
-  // ],
-
   props: {
     questionsAnsweredCorrectly: Number,
     questionsAnswered: Number
   },
 
-  // data() {
-  //   percentageCorrect: Number
-  // },
-
-  computed: {
-    getPercentage: function() {
-      return (this.questionsAnsweredCorrectly / this.questionsAnswered) * 100
+  data() {
+    return {
+       percentageCorrect: 
+        (this.questionsAnsweredCorrectly / this.questionsAnswered) * 100
     }
-  }, 
+  },
 
   methods: {
     assignClass() {
-      if(this.getPercentage <= 25) {
-        return 'lowScore'
-      }
-      if (this.getPercentage <= 75) {
-        return 'decentScore'
-      }
-      else {
-        return 'goodScore'
-      }
+      if(this.percentageCorrect <= 25) { return 'lowScore' }
+      else if (this.percentageCorrect <= 75) { return 'decentScore' }
+      else { return 'goodScore' }
     }
   }
-
-
 }
 </script>
 
 <style scoped>
-lowScore {
-  font-size: xx-large;
-  color: red;
+.lowScore {
+  background-color: red;
 }
 
-decentScore {
-  font-size: xx-large;
-  color: yellow;
+.decentScore {
+  background-color: yellow;
 }
 
-goodScore {
-  font-size: xx-large;
-  color: green;
+.goodScore {
+  background-color: green;
 }
-
 </style>

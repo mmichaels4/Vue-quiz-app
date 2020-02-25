@@ -6,8 +6,7 @@
     />
     
 
-    <b-container v-if="indexOfCurrentQuestion <= 3" class="bv-example-row">
-    <!-- <b-container v-if="indexOfCurrentQuestion <= 9" class="bv-example-row"> -->
+    <b-container v-if="indexOfCurrentQuestion <= 9" class="bv-example-row">
       <b-row>
         <b-col sm="6" offset="3">
           <QuestionBox
@@ -25,8 +24,7 @@
       </b-row>
     </b-container>
     
-    <!-- <DisplayScore v-if="indexOfCurrentQuestion === 10" -->
-    <DisplayScore v-if="indexOfCurrentQuestion > 3"
+    <DisplayScore v-if="indexOfCurrentQuestion === 10"
       :questionsAnsweredCorrectly="questionsAnsweredCorrectly"
       :questionsAnswered="questionsAnswered"
       />
@@ -55,6 +53,7 @@ export default {
       questionsAnsweredCorrectly: 0,
       questionsAnswered: 0,
       indexOfCurrentQuestion: 0,
+
     }
   },
 
