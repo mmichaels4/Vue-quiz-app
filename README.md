@@ -8,7 +8,7 @@ Some major areas of difference include:
 * Adding a footer
 * A more efficient method of shuffling.  
 
-The data comes via opentdb.com in the form of a JSON file that you can see here: <https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple>
+The data comes via opentdb.com in the form of a JSON file that you can see here: <https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple>. Each time you access that link, it returns different data.
 
 ## Project setup
 ```
